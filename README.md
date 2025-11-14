@@ -1,16 +1,136 @@
-# React + Vite
+# Generic React Table
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight, fully custom React table implementation. This project showcases clean component architecture, virtualization, inline editing, and a production-ready Docker + Nginx setup.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application is a client-side React SPA that renders a generic, schema-driven data table with the following capabilities:
 
-## React Compiler
+- **Inline cell editing** - Edit cells directly in the table
+- **Column visibility toggling** - Show/hide columns dynamically
+- **Virtualized row rendering** - Smooth performance for large datasets using `react-virtuoso`
+- **Normalized state management** - Clean separation of rows and columns data
+- **Custom component architecture** - No external table libraries, built from scratch
+- **Production-ready deployment** - Docker + Nginx configuration included
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The implementation focuses on readability, maintainability, and building table behavior from first principles.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Core Functionality
+
+- **Schema-driven column definitions** - Define table structure through configuration
+- **Inline editing** - Click cells to edit with custom editors per column type
+- **Column visibility panel** - Toggle which columns are displayed
+- **Efficient virtualization** - Smooth scrolling for thousands of rows
+- **Normalized data structure** - Clean state management with `rowsById`, `rowIds`, `columnsById`, `columnOrder`
+- **Clear keyboard/focus behavior** - Intuitive navigation and editing
+- **Extensible architecture** - Easy to add new renderers and editors
+
+### Data Structure
+
+The table uses a normalized state pattern:
+
+```javascript
+{
+  rowsById: { [id]: { ...rowData } },
+  rowIds: [id1, id2, ...],
+  columnsById: { [id]: { ...columnConfig } },
+  columnOrder: [colId1, colId2, ...]
+}
+```
+
+## Project Structure
+
+```
+.
+├── Dockerfile
+├── nginx.conf
+├── package.json
+├── vite.config.js
+├── src
+│   ├── main.jsx
+│   ├── index.css
+│   ├── App.jsx
+│   └── features
+│       └── table
+│           ├── components
+│           │   ├── Table.jsx
+│           │   ├── TableBody.jsx
+│           │   ├── TableHeader.jsx
+│           │   ├── TableRow.jsx
+│           │   ├── TableCell.jsx
+│           │   ├── ColumnSelector.jsx
+│           │   └── SaveButton.jsx
+│           ├── hooks
+│           │   ├── useTableData.js
+│           │   ├── useColumnVisibility.js
+│           │   └── useCellEditing.js
+│           ├── renderers
+│           │   ├── StringCellView.jsx
+│           │   └── SelectCellView.jsx
+│           ├── editors
+│           │   ├── StringEditor.jsx
+│           │   └── BooleanEditor.jsx
+│           └── utils
+│               └── constants.js
+```
+
+### Architecture Principles
+
+- **Hooks** - Contain logic for data management, editing state, and column visibility
+- **Components** - Handle layout and rendering concerns
+- **Renderers/Editors** - Map column types to specific UI behaviors
+- **CSS Grid** - Defines responsive table layout, synchronized between header and rows
+- **Virtualization** - Ensures smooth performance for large datasets
+
+## Extending the Table
+
+### Adding a New Column Type
+
+1. Create a renderer in `src/features/table/renderers/`
+2. Create an editor in `src/features/table/editors/`
+3. Map the type in your column configuration
+4. Add any type-specific logic in the appropriate hooks
+
+### Example Column Configuration
+
+```javascript
+{
+  id: 'status',
+  label: 'Status',
+  type: 'select',
+  options: ['Active', 'Inactive', 'Pending'],
+  visible: true
+}
+```
+
+## Running with Docker (Production Build)
+
+Build the image:
+
+```bash
+docker build -t generic-table .
+```
+
+Run the container:
+
+```bash
+docker run -d -p 8080:80 generic-table
+```
+
+Open the application:
+
+```
+http://localhost:8080
+```
+
+### Dockerfile Overview
+
+The Dockerfile uses a multi-stage build:
+
+- **Stage 1:** Builds the React app using Node
+- **Stage 2:** Serves static files via Nginx
+- SPA routing configured using `try_files` in `nginx.conf`
+
+---
