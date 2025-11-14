@@ -9,11 +9,6 @@ function TableHeader({ columns }) {
           <div
             key={column.id}
             className="table-header-cell"
-            style={
-              column.width
-                ? { flexBasis: `${column.width}px` }
-                : undefined
-            }
           >
             <span className="table-header-title">
               {column.title}

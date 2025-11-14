@@ -1,6 +1,7 @@
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import TableRow from "./TableRow";
+import TableHeader from "./TableHeader";
 
 function TableBody({
   rowIds,
@@ -12,17 +13,23 @@ function TableBody({
   updateDraft,
   confirmEdit,
   cancelEdit,
-  rowHeight = 40,
-  height = 400,
+  focusedCell,
+  setFocusedCell,
+  rowHeight = 44,
+  height = 420,
 }) {
   return (
     <div className="table-body" style={{ height }}>
       <Virtuoso
         style={{ height: "100%" }}
         totalCount={rowIds.length}
+        components={{
+          Header: () => <TableHeader columns={visibleColumns} />,
+        }}
         itemContent={(index) => {
           const rowId = rowIds[index];
           const row = rowsById[rowId];
+
           const isEditingRow =
             editingCell && editingCell.rowId === rowId;
 
@@ -40,6 +47,8 @@ function TableBody({
               updateDraft={updateDraft}
               confirmEdit={confirmEdit}
               cancelEdit={cancelEdit}
+              focusedCell={focusedCell}
+              setFocusedCell={setFocusedCell}
             />
           );
         }}

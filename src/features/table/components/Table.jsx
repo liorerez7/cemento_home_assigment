@@ -39,6 +39,8 @@ function Table({ initialColumns, initialData }) {
     onConfirm: updateCell,
   });
 
+  const [focusedCell, setFocusedCell] = useState(null);
+
   const allColumns = useMemo(
     () =>
       columnOrder
@@ -66,9 +68,8 @@ function Table({ initialColumns, initialData }) {
   };
 
   const gridTemplate = visibleColumns
-  .map(col => `minmax(${col.width || 150}px, 1fr)`)
-  .join(" ");
-
+    .map(col => `minmax(${col.width || 150}px, 1fr)`)
+    .join(" ");
 
   return (
     <div className="table-root">
@@ -102,12 +103,10 @@ function Table({ initialColumns, initialData }) {
         />
       )}
 
-      <div className="table-container"
-      style={{ "--table-columns-template": gridTemplate }}
-      >
-        <TableHeader
-          columns={visibleColumns}
-        />
+      <div
+        className="table-container"
+        style={{ "--table-columns-template": gridTemplate }}>
+    
         <TableBody
           rowIds={rowIds}
           rowsById={rowsById}
@@ -118,8 +117,10 @@ function Table({ initialColumns, initialData }) {
           updateDraft={updateDraft}
           confirmEdit={confirmEdit}
           cancelEdit={cancelEdit}
-          rowHeight={40}
-          height={400}
+          focusedCell={focusedCell}
+          setFocusedCell={setFocusedCell}
+          rowHeight={48}
+          height={600}
         />
       </div>
     </div>

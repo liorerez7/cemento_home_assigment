@@ -5,10 +5,7 @@ function App() {
   return (
     <div className="app-root">
       <header className="app-header">
-        <h1 className="app-title">Generic Table Demo</h1>
-        <p className="app-subtitle">
-          Schema-driven table with basic rendering and column visibility.
-        </p>
+        <h1 className="app-title">Lior Erez - Home Assigment</h1>
       </header>
 
       <main className="app-main">
