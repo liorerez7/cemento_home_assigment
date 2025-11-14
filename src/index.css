@@ -8,26 +8,43 @@
 body {
   margin: 16px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background-color: #f5f5f5;
+  background-color: #f3f4f6;
+}
+
+/* צבעים גלובליים – קצת יותר מורגשים */
+:root {
+  --color-border: #d1d5db;
+  --color-header-bg: #e5edff;      /* כחול מאוד בהיר לכותרת */
+  --color-row-alt: #f9fbff;        /* שורות זוגיות */
+  --color-row-hover: #e0edff;      /* hover */
+  --color-cell-focus: #dbeafe;     /* תא נבחר */
+  --color-primary: #2563eb;
+  --color-primary-soft: #dbeafe;
 }
 
 /* עטיפה כללית של האפליקציה */
 .app-root {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 16px;
 }
 
+/* כותרת עליונה */
 .app-header {
   margin-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
 }
 
 .app-title {
   margin: 0 0 4px;
+  font-size: 1.4rem;
+  color: #1f2933;
 }
 
 .app-subtitle {
   margin: 0;
-  color: #555;
+  color: #6b7280;
   font-size: 0.9rem;
 }
 
@@ -38,41 +55,67 @@ body {
   align-items: center;
   margin-bottom: 8px;
   font-size: 0.9rem;
+  color: #4b5563;
 }
 
 .table-toolbar-left {
-  color: #555;
+  color: #4b5563;
 }
 
-.table-toolbar-right button {
+/* כפתורים בטולבר */
+.table-toolbar-right button,
+.table-save-button {
   margin-left: 4px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #d0d0d0;
+  background-color: #f9fafb;
+  font-size: 0.85rem;
+}
+
+.table-toolbar-right button:hover,
+.table-save-button:not(:disabled):hover {
+  background-color: var(--color-primary-soft);
+  border-color: #b0c4ff;
+}
+
+.table-save-button:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
 /* עטיפה של הטבלה עצמה */
 .table-container {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: #ffffff;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
 }
 
 /* כותרת טבלה */
 .table-header {
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--color-header-bg);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .table-header-row {
   display: grid;
   grid-template-columns: var(--table-columns-template);
+  align-items: center;
+
+  /* חשוב: להסיר את ה-padding-right שהיה כאן!
+     אחרת ההאדר יוצא לא מיושר עם גוף הטבלה. */
 }
 
-
 .table-header-cell {
-  padding: 6px 8px;
+  padding: 14px 18px;
   font-weight: 600;
-  font-size: 0.9rem;
-  border-right: 1px solid #ddd;
+  font-size: 1.2rem;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  color: #374151;
 }
 
 .table-header-cell:last-child {
@@ -81,17 +124,60 @@ body {
 
 /* גוף הטבלה */
 .table-body {
-  height: 300px; /* Virtuoso יקבל 100% מהגובה הזה */
+  height: 420px; /* טבלה גבוהה יותר */
+  background-color: #ffffff;
 }
 
 /* כל שורה */
 .table-row {
   display: grid;
   grid-template-columns: var(--table-columns-template);
+  align-items: center;
   overflow: hidden;
 }
 
+.table-row:nth-child(even) {
+  background-color: var(--color-row-alt);
+}
 
+/* כל תא */
+.table-cell {
+  padding: 14px 18px;         
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.table-cell:last-child {
+  border-right: none;
+}
+
+/* hover לפי תא */
+.table-cell:hover {
+  background-color: var(--color-row-hover);
+  transition: background-color 0.12s ease-in-out;
+}
+
+/* תא בפוקוס / נבחר */
+.table-cell-focused {
+  background-color: var(--color-cell-focus);
+  box-shadow: inset 0 0 0 1px #90caf9;
+  outline: none;
+}
+
+/* מצב עריכה */
+.table-cell-edit-mode {
+  background-color: #fffce6;
+}
+
+/* מלל בתא */
 .table-cell-text {
   display: block;
   width: 100%;
@@ -100,45 +186,13 @@ body {
   text-overflow: ellipsis;
 }
 
-/* כל תא */
-.table-cell {
-  padding: 6px 8px;
-  border-bottom: 1px solid #eee;
-  border-right: 1px solid #eee;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-  max-width: 100%;
-
-
-}
-
-.table-cell:last-child {
-  border-right: none;
-}
-
-/* פספוס קל בין שורות */
-.table-row:nth-child(even) {
-  background-color: #fafafa;
-}
-
-/* ווריאציות (view / edit) – לעתיד, כרגע רק מכינים קרקע */
-.table-cell-view-mode {
-  cursor: default;
-}
-
-.table-cell-edit-mode {
-  background-color: #fffce6;
-}
-
 /* Column selector – פאנל קטן */
 .table-column-selector {
   margin-bottom: 8px;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: #f9fafb;
   font-size: 0.9rem;
 }
 
@@ -160,18 +214,4 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-}
-
-/* כפתור שמירה – מינימלי */
-.table-save-button {
-  padding: 4px 8px;
-}
-
-/* תא מסוגים שונים – הכנה לעתיד */
-.cell-string,
-.cell-number,
-.cell-boolean,
-.cell-select {
-  display: inline-block;
-  max-width: 100%;
 }

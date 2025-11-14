@@ -1,4 +1,3 @@
-// src/features/table/components/TableRow.jsx
 import React from 'react';
 import TableCell from './TableCell';
 
@@ -12,6 +11,8 @@ function TableRow({
   updateDraft,
   confirmEdit,
   cancelEdit,
+  focusedCell,
+  setFocusedCell
 }) {
   return (
     <div className="table-row">
@@ -26,6 +27,11 @@ function TableRow({
             ? draftValue
             : cellValue;
 
+        const isFocused =
+          focusedCell &&
+          focusedCell.rowId === rowId &&
+          focusedCell.columnId === column.id;
+
         return (
           <TableCell
             key={column.id}
@@ -38,6 +44,8 @@ function TableRow({
             updateDraft={updateDraft}
             confirmEdit={confirmEdit}
             cancelEdit={cancelEdit}
+            isFocused={isFocused}
+            setFocusedCell={setFocusedCell}
           />
         );
       })}

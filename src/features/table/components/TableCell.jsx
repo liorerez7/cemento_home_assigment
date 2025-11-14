@@ -1,36 +1,4 @@
-// src/features/table/components/TableCell.jsx
 import React, { useCallback } from 'react';
-
-// NOTE: constants.js needs to export:
-//
-// export const CELL_RENDERERS = {
-//   string: StringCellView,
-//   number: NumberCellView,
-//   boolean: BooleanCellView,
-//   select: SelectCellView,
-//   // ...any other supported types
-// };
-//
-// export const CELL_EDITORS = {
-//   string: StringEditor,
-//   number: NumberEditor,
-//   boolean: BooleanEditor,
-//   select: SelectEditor,
-//   // ...matching the renderers
-// };
-//
-// Each *CellView should be a pure presentational component:
-//   ({ value, column }) => JSX
-//
-// Each *Editor should be a controlled input component with props:
-//   {
-//     value,
-//     column,
-//     onChange(nextValue),
-//     onCommit(),   // called when user confirms (Enter / blur / button)
-//     onCancel(),   // called when user cancels (Esc)
-//     autoFocus?: boolean
-//   }
 import { CELL_RENDERERS, CELL_EDITORS } from '../utils/constants';
 
 function DefaultCellView({ value }) {
@@ -51,6 +19,8 @@ function TableCell({
   updateDraft,
   confirmEdit,
   cancelEdit,
+  isFocused,
+  setFocusedCell
 }) {
   const ViewComponent =
     CELL_RENDERERS[column.type] || DefaultCellView;
@@ -62,6 +32,10 @@ function TableCell({
     if (!EditorComponent) return;
     startEdit(rowId, column.id, value);
   }, [EditorComponent, startEdit, rowId, column.id, value]);
+
+  const handleFocusCell = () => {
+    setFocusedCell({ rowId, columnId: column.id });
+  };
 
   const handleKeyDownView = (event) => {
     if (!EditorComponent) return;
@@ -96,14 +70,18 @@ function TableCell({
   };
 
   if (!isEditing || !EditorComponent) {
-    return (
-      <div
-        className="table-cell table-cell-view-mode"
-        role="gridcell"
-        tabIndex={0}
-        onDoubleClick={handleEnterEdit}
-        onKeyDown={handleKeyDownView}
-      >
+  return (
+    <div
+      className={`table-cell table-cell-view-mode ${
+        isFocused ? "table-cell-focused" : ""
+      }`}
+      role="gridcell"
+      tabIndex={0}
+      onFocus={handleFocusCell}
+      onClick={handleFocusCell}
+      onDoubleClick={handleEnterEdit}
+      onKeyDown={handleKeyDownView}
+    >
         <div className="table-cell-text">
           <ViewComponent value={value} column={column} />
         </div>
