@@ -1,5 +1,3 @@
-// src/features/table/utils/constants.js
-
 /*
   HIGH LEVEL (final design):
 
@@ -8,32 +6,32 @@
     - type -> editor component mapping
     - allowed column types
     - localStorage keys
-    - any default configuration (e.g. default row height, default table height)
+    - default table configuration
 
-  CURRENT IMPLEMENTATION:
+  CURRENT IMPLEMENTATION (updated for step 1):
 
-    - Defines CELL_RENDERERS using basic presentational components.
-    - Leaves CELL_EDITORS empty for now (no editing yet).
-    - Exposes basic constants for future use.
+    - Defines CELL_RENDERERS using presentational components.
+    - CELL_EDITORS still commented out (editing exists but editors will be added later).
+    - Adds LOCAL_STORAGE_KEYS for persistence (critical for step 1).
 */
 
 import StringCellView from "../renderers/StringCellView";
 import NumberCellView from "../renderers/NumberCellView";
 import BooleanCellView from "../renderers/BooleanCellView";
 import SelectCellView from "../renderers/SelectCellView";
+import StringEditor from "../editors/StringEditor";
+import NumberEditor from "../editors/NumberEditor";
+import BooleanEditor from "../editors/BooleanEditor";
+import SelectEditor from "../editors/SelectEditor";
 
-// In the future, these editors should be implemented and wired here:
-// import StringEditor from "../editors/StringEditor";
-// import NumberEditor from "../editors/NumberEditor";
-// import BooleanEditor from "../editors/BooleanEditor";
-// import SelectEditor from "../editors/SelectEditor";
+export const CELL_EDITORS = {
+  string: StringEditor,
+  number: NumberEditor,
+  boolean: BooleanEditor,
+  select: SelectEditor,
+};
 
-export const SUPPORTED_COLUMN_TYPES = [
-  "string",
-  "number",
-  "boolean",
-  "select",
-];
+export const SUPPORTED_COLUMN_TYPES = ["string", "number", "boolean", "select"];
 
 export const CELL_RENDERERS = {
   string: StringCellView,
@@ -42,17 +40,15 @@ export const CELL_RENDERERS = {
   select: SelectCellView,
 };
 
-// For now, editing is disabled because no editors are provided.
-// TableCell falls back to view mode when no editor exists for a type.
-export const CELL_EDITORS = {
-  // string: StringEditor,
-  // number: NumberEditor,
-  // boolean: BooleanEditor,
-  // select: SelectEditor,
+// NEW: Step 1 – localStorage keys
+export const LOCAL_STORAGE_KEYS = {
+  SCHEMA: "generic_table_schema",
+  DATA: "generic_table_data",
 };
 
-export const TABLE_LOCAL_STORAGE_KEY = "generic-table-schema-and-data";
+export const DEFAULT_GENERATED_ROWS = 200;
 
-// Optional configuration for future use
+
+// Optional defaults (not required but helpful)
 export const DEFAULT_ROW_HEIGHT = 40;
 export const DEFAULT_TABLE_HEIGHT = 400;

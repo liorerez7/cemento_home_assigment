@@ -1,6 +1,3 @@
-// src/features/table/components/SaveButton.jsx
-import React from 'react';
-
 function SaveButton({ onSave, disabled }) {
   return (
     <button

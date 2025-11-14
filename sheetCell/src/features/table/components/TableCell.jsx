@@ -104,7 +104,9 @@ function TableCell({
         onDoubleClick={handleEnterEdit}
         onKeyDown={handleKeyDownView}
       >
-        <ViewComponent value={value} column={column} />
+        <div className="table-cell-text">
+          <ViewComponent value={value} column={column} />
+        </div>
       </div>
     );
   }

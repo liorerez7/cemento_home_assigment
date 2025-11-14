@@ -1,30 +1,29 @@
-// src/features/table/hooks/useTableData.js
 import { useMemo, useState } from "react";
+import { localStorageAdapter } from "../adapters/localStorageAdapter";
+import { denormalizeRows } from "../utils/normalization";
+import { generateSchemaAndData } from "../adapters/dataGenerator";
+import { DEFAULT_GENERATED_ROWS } from "../utils/constants";
 
 /*
   HIGH LEVEL (future design):
 
-  This hook is the single source of truth for table data.
-  In the final version it should:
-    - Load schema + data from an adapter (e.g. localStorageAdapter.getSchemaAndData()).
-    - If nothing is stored, generate data via dataGenerator.
-    - Normalize data into:
-        columnsById: { [columnId]: ColumnDef }
-        columnOrder: string[]
-        rowsById: { [rowId]: RowObject }
-        rowIds: string[]
-    - Provide updateCell(rowId, columnId, newValue) for O(1) cell updates.
-    - Track hasUnsavedChanges and support saveAll() to persist back via adapter.
-    - Optionally support replaceAll() when loading a new dataset.
+  - Load schema + data from storage or generator.
+  - Normalize.
+  - Provide O(1) updates.
+  - expose saveAll() which persists.
+  - Track unsaved changes.
 
-  CURRENT IMPLEMENTATION (minimal to see results):
-
-    - Accepts { columns, data } from props (App).
-    - Normalizes them in-memory.
-    - updateCell() updates an internal rows array and marks hasUnsavedChanges = true.
-    - saveAll() only logs to console and resets hasUnsavedChanges.
+  CURRENT STATUS:
+    Step 1 + Step 2 fully implemented:
+      ✔ Load from localStorage if present
+      ✔ Otherwise load initial props
+      ✔ Otherwise generate schema+data automatically
+      ✔ Save generated dataset to localStorage
 */
 
+// ----------------------------
+// Normalization helpers
+// ----------------------------
 function normalizeColumns(columns) {
   const columnsById = {};
   const columnOrder = [];
@@ -64,13 +63,45 @@ function normalizeRows(rows) {
   return { rowsById, rowIds };
 }
 
+// ----------------------------
+// Main hook
+// ----------------------------
 export default function useTableData({ columns, data }) {
-  // In the future:
-  // - This initial state should come from an adapter (localStorage, dataGenerator, etc).
-  const [columnState] = useState(() => columns || []);
-  const [rowState, setRowState] = useState(() => data || []);
+  let initialColumns = columns;
+  let initialData = data;
+
+  // -------------------------------------------
+  // STEP 1: Try loading from localStorage
+  // -------------------------------------------
+  if (!initialColumns || !initialData) {
+    const stored = localStorageAdapter.getSchemaAndData();
+    if (stored) {
+      initialColumns = stored.columns;
+      initialData = stored.data;
+    }
+  }
+
+  // -------------------------------------------
+  // STEP 2: Nothing found → generate new dataset
+  // -------------------------------------------
+  if (!initialColumns || !initialData) {
+    const generated = generateSchemaAndData(DEFAULT_GENERATED_ROWS);
+
+    initialColumns = generated.columns;
+    initialData = generated.data;
+
+    // Save generated dataset so future reloads load from storage
+    localStorageAdapter.saveSchemaAndData(generated);
+  }
+
+  // -------------------------------------------
+  // Internal state (raw, unnormalized)
+  // -------------------------------------------
+  const [columnState] = useState(() => initialColumns || []);
+  const [rowState, setRowState] = useState(() => initialData || []);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
+  // Normalize
   const { columnsById, columnOrder } = useMemo(
     () => normalizeColumns(columnState),
     [columnState]
@@ -81,16 +112,20 @@ export default function useTableData({ columns, data }) {
     [rowState]
   );
 
+  // ----------------------------
+  // Cell update (O(1) row update)
+  // ----------------------------
   const updateCell = (rowId, columnId, newValue) => {
     if (!rowId || !columnId) return;
 
     setRowState((prevRows) => {
       if (!Array.isArray(prevRows)) return prevRows;
 
-      // Update only the changed row, keep others by reference
       let changed = false;
+
       const nextRows = prevRows.map((row) => {
         if (!row || row.id !== rowId) return row;
+
         changed = true;
         return {
           ...row,
@@ -106,14 +141,17 @@ export default function useTableData({ columns, data }) {
     });
   };
 
+  // ----------------------------
+  // saveAll() – real persistence
+  // ----------------------------
   const saveAll = () => {
-    // In the final version, this should:
-    // - Denormalize the data
-    // - Call localStorageAdapter.saveSchemaAndData({ columns, data })
-    // - Possibly report success/failure to the UI
-    // For now, we only log and reset hasUnsavedChanges.
-    // eslint-disable-next-line no-console
-    console.log("[useTableData] saveAll called - no real persistence yet.");
+    const denormalized = denormalizeRows(rowsById, rowIds);
+
+    localStorageAdapter.saveSchemaAndData({
+      columns: columnOrder.map((id) => columnsById[id]),
+      data: denormalized,
+    });
+
     setHasUnsavedChanges(false);
   };
 
