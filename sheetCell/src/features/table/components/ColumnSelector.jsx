@@ -1,6 +1,3 @@
-// src/features/table/components/ColumnSelector.jsx
-import React from 'react';
-
 function ColumnSelector({
   columns,
   visibleColumnIds,
