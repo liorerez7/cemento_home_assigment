@@ -84,6 +84,27 @@ The table uses a normalized state pattern:
 - **CSS Grid** - Defines responsive table layout, synchronized between header and rows
 - **Virtualization** - Ensures smooth performance for large datasets
 
+## Extending the Table
+
+### Adding a New Column Type
+
+1. Create a renderer in `src/features/table/renderers/`
+2. Create an editor in `src/features/table/editors/`
+3. Map the type in your column configuration
+4. Add any type-specific logic in the appropriate hooks
+
+### Example Column Configuration
+
+```javascript
+{
+  id: 'status',
+  label: 'Status',
+  type: 'select',
+  options: ['Active', 'Inactive', 'Pending'],
+  visible: true
+}
+```
+
 ## Running with Docker (Production Build)
 
 Build the image:
@@ -112,27 +133,4 @@ The Dockerfile uses a multi-stage build:
 - **Stage 2:** Serves static files via Nginx
 - SPA routing configured using `try_files` in `nginx.conf`
 
-## Extending the Table
-
-### Adding a New Column Type
-
-1. Create a renderer in `src/features/table/renderers/`
-2. Create an editor in `src/features/table/editors/`
-3. Map the type in your column configuration
-4. Add any type-specific logic in the appropriate hooks
-
-### Example Column Configuration
-
-```javascript
-{
-  id: 'status',
-  label: 'Status',
-  type: 'select',
-  options: ['Active', 'Inactive', 'Pending'],
-  visible: true
-}
-```
-
 ---
-
-**Built with React, Vite, and modern web standards. No external table libraries required.**
