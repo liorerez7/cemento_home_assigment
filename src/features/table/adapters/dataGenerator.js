@@ -1,3 +1,13 @@
+
+/**
+ * Generates a demo table schema and randomly populated dataset.
+ *
+ * @param {number} rowCount - Number of rows to generate.
+ * @returns {{
+ *   columns: any[],
+ *   data: any[]
+ * }} A full table schema + generated rows.
+ */
 export function generateSchemaAndData(rowCount = DEFAULT_GENERATED_ROWS) {
   const columns = [
     {

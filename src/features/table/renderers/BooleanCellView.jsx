@@ -1,6 +1,3 @@
-// src/features/table/renderers/BooleanCellView.jsx
-import React from "react";
-
 function BooleanCellView({ value }) {
   const isTrue = Boolean(value);
   const label = isTrue ? "True" : "False";

@@ -7,6 +7,20 @@ import useTableData from '../hooks/useTableData';
 import useColumnVisibility from '../hooks/useColumnVisibility';
 import useCellEditing from '../hooks/useCellEditing';
 
+
+/**
+ * Main table component responsible for:
+ *  - Loading & normalizing data
+ *  - Managing column visibility
+ *  - Managing editing state
+ *  - Rendering header, body, and toolbar
+ *
+ * @param {{
+ *   initialColumns?: any[],
+ *   initialData?: any[]
+ * }} props
+ */
+
 function Table({ initialColumns, initialData }) {
   const {
     columnsById,

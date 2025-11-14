@@ -1,13 +1,28 @@
 import React, { useCallback } from 'react';
 import { CELL_RENDERERS, CELL_EDITORS } from '../utils/constants';
 
-function DefaultCellView({ value }) {
-  return (
-    <span className="table-cell-text">
-      {value == null ? '' : String(value)}
-    </span>
-  );
-}
+
+
+
+/**
+ * Renders a single table cell in either view mode or edit mode.
+ * Selects the appropriate renderer/editor based on column.type,
+ * handles focus, keyboard actions, and edit lifecycle.
+ *
+ * @param {{
+ *   rowId: string,
+ *   column: any,
+ *   value: any,
+ *   isEditing: boolean,
+ *   draftValue: any,
+ *   startEdit: Function,
+ *   updateDraft: Function,
+ *   confirmEdit: Function,
+ *   cancelEdit: Function,
+ *   isFocused: boolean,
+ *   setFocusedCell: Function
+ * }} props
+ */
 
 function TableCell({
   rowId,
@@ -106,5 +121,15 @@ function TableCell({
     </div>
   );
 }
+
+
+function DefaultCellView({ value }) {
+  return (
+    <span className="table-cell-text">
+      {value == null ? '' : String(value)}
+    </span>
+  );
+}
+
 
 export default React.memo(TableCell);

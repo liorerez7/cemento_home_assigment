@@ -1,3 +1,15 @@
+/**
+ * Panel for toggling column visibility.
+ * Displays a list of columns with checkboxes and notifies parent via callbacks.
+ *
+ * @param {{
+ *   columns: any[],
+ *   visibleColumnIds: Set<string>,
+ *   onToggleColumn: (columnId: string) => void,
+ *   onClose: () => void
+ * }} props
+ */
+
 function ColumnSelector({
   columns,
   visibleColumnIds,

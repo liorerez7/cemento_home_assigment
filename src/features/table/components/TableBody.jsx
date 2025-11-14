@@ -1,7 +1,28 @@
-import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import TableRow from "./TableRow";
 import TableHeader from "./TableHeader";
+
+/**
+ * Virtualized table body using react-virtuoso.
+ * Renders rows efficiently and forwards editing/focus props to each row.
+ *
+ * @param {{
+ *   rowIds: string[],
+ *   rowsById: Record<string, any>,
+ *   visibleColumns: any[],
+ *   editingCell: any,
+ *   draftValue: any,
+ *   startEdit: Function,
+ *   updateDraft: Function,
+ *   confirmEdit: Function,
+ *   cancelEdit: Function,
+ *   focusedCell: any,
+ *   setFocusedCell: Function,
+ *   rowHeight?: number,
+ *   height?: number
+ * }} props
+ */
+
 
 function TableBody({
   rowIds,

@@ -1,25 +1,18 @@
-// src/features/table/hooks/useColumnVisibility.js
 import { useMemo, useState } from "react";
 
-/*
-  HIGH LEVEL (future design):
-
-  This hook should:
-    - Accept initial column order (array of columnIds).
-    - Maintain a Set<string> of visible columns.
-    - Expose:
-        visibleColumnIds: Set<string>
-        toggleColumnVisibility(columnId): void
-    - Optionally:
-        - Load initial visibility preferences from localStorage.
-        - Persist changes to localStorage using a stable key.
-
-  CURRENT IMPLEMENTATION:
-
-    - Initializes visibility with all columnIds visible.
-    - Provides toggleColumnVisibility that adds/removes ids from the Set.
-    - Does not persist to localStorage yet.
-*/
+/**
+ * Controls which table columns are visible.
+ *
+ * Initializes visibility from the given column order and exposes:
+ *  - visibleColumnIds: Set<string>
+ *  - toggleColumnVisibility(columnId)
+ *
+ * @param {string[]} initialColumnOrder
+ * @returns {{
+ *   visibleColumnIds: Set<string>,
+ *   toggleColumnVisibility: (columnId: string) => void
+ * }}
+ */
 
 export default function useColumnVisibility(initialColumnOrder) {
   const [visibleColumnIds, setVisibleColumnIds] = useState(() => {

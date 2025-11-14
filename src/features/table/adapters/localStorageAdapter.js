@@ -1,5 +1,14 @@
 import { LOCAL_STORAGE_KEYS } from '../utils/constants';
 
+/**
+ * Handles persistence of table schema & data using localStorage.
+ * Provides:
+ *  - getSchemaAndData(): loads and parses stored schema/data
+ *  - saveSchemaAndData(): saves schema/data as JSON
+ *
+ * Safely wraps JSON parse/stringify and guards against errors.
+ */
+
 export const localStorageAdapter = {
   getSchemaAndData() {
     try {

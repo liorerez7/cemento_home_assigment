@@ -1,29 +1,26 @@
-// src/features/table/hooks/useCellEditing.js
 import { useCallback, useState } from "react";
 
-/*
-  HIGH LEVEL (final design):
-
-  This hook is responsible for managing a single active cell edit at a time.
-  It should:
-    - Keep:
-        editingCell: { rowId: string, columnId: string } | null
-        draftValue: any
-    - Expose:
-        startEdit(rowId, columnId, initialValue)
-        updateDraft(nextValue)
-        confirmEdit()
-        cancelEdit()
-    - Call onConfirm(rowId, columnId, draftValue) when confirmEdit() is called.
-    - Prevent multiple concurrent edits.
-
-  CURRENT IMPLEMENTATION:
-
-    - Fully implements the flow above.
-    - However, editing is effectively disabled at the UI level for now,
-      because CELL_EDITORS is empty and TableCell only allows editing
-      when an editor exists for the column type.
-*/
+/**
+ * Manages inline cell editing for a single active cell.
+ *
+ * Exposes:
+ *  - editingCell: { rowId, columnId } | null
+ *  - draftValue: current temporary value while editing
+ *  - startEdit(rowId, columnId, initialValue)
+ *  - updateDraft(nextValue)
+ *  - confirmEdit() → calls onConfirm(rowId, columnId, draftValue)
+ *  - cancelEdit()
+ *
+ * @param {{ onConfirm: (rowId: string, columnId: string, value: any) => void }} params
+ * @returns {{
+ *   editingCell: { rowId: string, columnId: string } | null,
+ *   draftValue: any,
+ *   startEdit: Function,
+ *   updateDraft: Function,
+ *   confirmEdit: Function,
+ *   cancelEdit: Function
+ * }}
+ */
 
 export default function useCellEditing({ onConfirm }) {
   const [editingCell, setEditingCell] = useState(null);

@@ -1,6 +1,28 @@
 import React from 'react';
 import TableCell from './TableCell';
 
+
+/**
+ * Represents a single table row.
+ * Maps visible columns into TableCell components and forwards
+ * edit/focus state for the corresponding cell.
+ *
+ * @param {{
+ *   rowId: string,
+ *   row: Record<string, any>,
+ *   visibleColumns: any[],
+ *   editingCell: { rowId: string, columnId: string } | null,
+ *   draftValue: any,
+ *   startEdit: Function,
+ *   updateDraft: Function,
+ *   confirmEdit: Function,
+ *   cancelEdit: Function,
+ *   focusedCell: any,
+ *   setFocusedCell: Function
+ * }} props
+ */
+
+
 function TableRow({
   rowId,
   row,

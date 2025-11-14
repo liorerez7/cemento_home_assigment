@@ -1,5 +1,8 @@
-// src/features/table/components/TableHeader.jsx
-import React from 'react';
+/**
+ * Renders the table header row according to the visible columns.
+ *
+ * @param {{ columns: any[] }} props
+ */
 
 function TableHeader({ columns }) {
   return (

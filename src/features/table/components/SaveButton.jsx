@@ -1,3 +1,12 @@
+/**
+ * Simple save button used in the table toolbar.
+ *
+ * @param {{
+ *   onSave: () => void,
+ *   disabled: boolean
+ * }} props
+ */
+
 function SaveButton({ onSave, disabled }) {
   return (
     <button

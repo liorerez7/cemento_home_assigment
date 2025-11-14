@@ -4,26 +4,29 @@ import { denormalizeRows } from "../utils/normalization";
 import { generateSchemaAndData } from "../adapters/dataGenerator";
 import { DEFAULT_GENERATED_ROWS } from "../utils/constants";
 
-/*
-  HIGH LEVEL (future design):
+/**
+ * Provides normalized table data (rows & columns) with O(1) access,
+ * local persistence through localStorage, and inline cell updates.
+ *
+ * Responsibilities:
+ *  - Load schema & data from props or localStorage
+ *  - Generate dataset if nothing exists
+ *  - Normalize rows/columns into byId structures
+ *  - Expose updateCell() and saveAll()
+ *  - Track unsaved changes
+ *
+ * @param {{ columns?: any[], data?: any[] }} params
+ * @returns {{
+ *   columnsById: Record<string, any>,
+ *   columnOrder: string[],
+ *   rowsById: Record<string, any>,
+ *   rowIds: string[],
+ *   hasUnsavedChanges: boolean,
+ *   updateCell: (rowId: string, columnId: string, value: any) => void,
+ *   saveAll: () => void
+ * }}
+ */
 
-  - Load schema + data from storage or generator.
-  - Normalize.
-  - Provide O(1) updates.
-  - expose saveAll() which persists.
-  - Track unsaved changes.
-
-  CURRENT STATUS:
-    Step 1 + Step 2 fully implemented:
-      ✔ Load from localStorage if present
-      ✔ Otherwise load initial props
-      ✔ Otherwise generate schema+data automatically
-      ✔ Save generated dataset to localStorage
-*/
-
-// ----------------------------
-// Normalization helpers
-// ----------------------------
 function normalizeColumns(columns) {
   const columnsById = {};
   const columnOrder = [];
@@ -63,16 +66,11 @@ function normalizeRows(rows) {
   return { rowsById, rowIds };
 }
 
-// ----------------------------
-// Main hook
-// ----------------------------
 export default function useTableData({ columns, data }) {
   let initialColumns = columns;
   let initialData = data;
 
-  // -------------------------------------------
-  // STEP 1: Try loading from localStorage
-  // -------------------------------------------
+
   if (!initialColumns || !initialData) {
     const stored = localStorageAdapter.getSchemaAndData();
     if (stored) {
@@ -81,27 +79,19 @@ export default function useTableData({ columns, data }) {
     }
   }
 
-  // -------------------------------------------
-  // STEP 2: Nothing found → generate new dataset
-  // -------------------------------------------
   if (!initialColumns || !initialData) {
     const generated = generateSchemaAndData(DEFAULT_GENERATED_ROWS);
 
     initialColumns = generated.columns;
     initialData = generated.data;
 
-    // Save generated dataset so future reloads load from storage
     localStorageAdapter.saveSchemaAndData(generated);
   }
 
-  // -------------------------------------------
-  // Internal state (raw, unnormalized)
-  // -------------------------------------------
   const [columnState] = useState(() => initialColumns || []);
   const [rowState, setRowState] = useState(() => initialData || []);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Normalize
   const { columnsById, columnOrder } = useMemo(
     () => normalizeColumns(columnState),
     [columnState]
@@ -112,9 +102,6 @@ export default function useTableData({ columns, data }) {
     [rowState]
   );
 
-  // ----------------------------
-  // Cell update (O(1) row update)
-  // ----------------------------
   const updateCell = (rowId, columnId, newValue) => {
     if (!rowId || !columnId) return;
 
@@ -141,9 +128,7 @@ export default function useTableData({ columns, data }) {
     });
   };
 
-  // ----------------------------
-  // saveAll() – real persistence
-  // ----------------------------
+
   const saveAll = () => {
     const denormalized = denormalizeRows(rowsById, rowIds);
 

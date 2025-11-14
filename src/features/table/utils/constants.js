@@ -1,19 +1,4 @@
-/*
-  HIGH LEVEL (final design):
 
-  This file should centralize:
-    - type -> renderer component mapping
-    - type -> editor component mapping
-    - allowed column types
-    - localStorage keys
-    - default table configuration
-
-  CURRENT IMPLEMENTATION (updated for step 1):
-
-    - Defines CELL_RENDERERS using presentational components.
-    - CELL_EDITORS still commented out (editing exists but editors will be added later).
-    - Adds LOCAL_STORAGE_KEYS for persistence (critical for step 1).
-*/
 
 import StringCellView from "../renderers/StringCellView";
 import NumberCellView from "../renderers/NumberCellView";
@@ -23,6 +8,17 @@ import StringEditor from "../editors/StringEditor";
 import NumberEditor from "../editors/NumberEditor";
 import BooleanEditor from "../editors/BooleanEditor";
 import SelectEditor from "../editors/SelectEditor";
+
+/**
+ * Centralized table configuration:
+ *  - CELL_RENDERERS: maps column types to view components
+ *  - CELL_EDITORS: maps column types to editor components
+ *  - SUPPORTED_COLUMN_TYPES: allowed schema types
+ *  - LOCAL_STORAGE_KEYS: keys used for persistence
+ *  - DEFAULT_GENERATED_ROWS: default dataset size
+ *
+ * These constants define the type system and behavior used by the table.
+ */
 
 export const CELL_EDITORS = {
   string: StringEditor,
