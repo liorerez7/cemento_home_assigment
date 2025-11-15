@@ -1,4 +1,3 @@
-// src/app/App.js
 import Table from "../features/table/components/Table";
 
 function App() {

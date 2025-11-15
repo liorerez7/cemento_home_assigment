@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
 import { CELL_RENDERERS, CELL_EDITORS } from '../utils/constants';
 
-
-
-
 /**
  * Renders a single table cell in either view mode or edit mode.
  * Selects the appropriate renderer/editor based on column.type,
@@ -121,7 +118,6 @@ function TableCell({
     </div>
   );
 }
-
 
 function DefaultCellView({ value }) {
   return (

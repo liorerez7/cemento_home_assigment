@@ -1,6 +1,4 @@
-/* src/index.css */
 
-/* בסיס כללי לדף */
 * {
   box-sizing: border-box;
 }
@@ -11,25 +9,22 @@ body {
   background-color: #f3f4f6;
 }
 
-/* צבעים גלובליים – קצת יותר מורגשים */
 :root {
   --color-border: #d1d5db;
-  --color-header-bg: #e5edff;      /* כחול מאוד בהיר לכותרת */
-  --color-row-alt: #f9fbff;        /* שורות זוגיות */
-  --color-row-hover: #e0edff;      /* hover */
-  --color-cell-focus: #dbeafe;     /* תא נבחר */
+  --color-header-bg: #e5edff;      
+  --color-row-alt: #f9fbff;       
+  --color-row-hover: #e0edff;      
+  --color-cell-focus: #dbeafe;     
   --color-primary: #2563eb;
   --color-primary-soft: #dbeafe;
 }
 
-/* עטיפה כללית של האפליקציה */
 .app-root {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
-/* כותרת עליונה */
 .app-header {
   margin-bottom: 12px;
   border-bottom: 1px solid #e0e0e0;
@@ -48,7 +43,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* טולבר מעל הטבלה */
 .table-toolbar {
   display: flex;
   justify-content: space-between;
@@ -62,7 +56,6 @@ body {
   color: #4b5563;
 }
 
-/* כפתורים בטולבר */
 .table-toolbar-right button,
 .table-save-button {
   margin-left: 4px;
@@ -84,7 +77,6 @@ body {
   cursor: default;
 }
 
-/* עטיפה של הטבלה עצמה */
 .table-container {
   border: 1px solid var(--color-border);
   border-radius: 6px;
@@ -93,7 +85,6 @@ body {
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
 }
 
-/* כותרת טבלה */
 .table-header {
   background-color: var(--color-header-bg);
   border-bottom: 1px solid var(--color-border);
@@ -103,9 +94,6 @@ body {
   display: grid;
   grid-template-columns: var(--table-columns-template);
   align-items: center;
-
-  /* חשוב: להסיר את ה-padding-right שהיה כאן!
-     אחרת ההאדר יוצא לא מיושר עם גוף הטבלה. */
 }
 
 .table-header-cell {
@@ -122,13 +110,11 @@ body {
   border-right: none;
 }
 
-/* גוף הטבלה */
 .table-body {
-  height: 420px; /* טבלה גבוהה יותר */
+  height: 420px; 
   background-color: #ffffff;
 }
 
-/* כל שורה */
 .table-row {
   display: grid;
   grid-template-columns: var(--table-columns-template);
@@ -140,7 +126,6 @@ body {
   background-color: var(--color-row-alt);
 }
 
-/* כל תא */
 .table-cell {
   padding: 14px 18px;         
   border-bottom: 1px solid #eee;
@@ -159,25 +144,21 @@ body {
   border-right: none;
 }
 
-/* hover לפי תא */
 .table-cell:hover {
   background-color: var(--color-row-hover);
   transition: background-color 0.12s ease-in-out;
 }
 
-/* תא בפוקוס / נבחר */
 .table-cell-focused {
   background-color: var(--color-cell-focus);
   box-shadow: inset 0 0 0 1px #90caf9;
   outline: none;
 }
 
-/* מצב עריכה */
 .table-cell-edit-mode {
   background-color: #fffce6;
 }
 
-/* מלל בתא */
 .table-cell-text {
   display: block;
   width: 100%;
@@ -186,7 +167,6 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Column selector – פאנל קטן */
 .table-column-selector {
   margin-bottom: 8px;
   padding: 8px;

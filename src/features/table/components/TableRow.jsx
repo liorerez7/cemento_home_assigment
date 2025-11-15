@@ -1,7 +1,6 @@
 import React from 'react';
 import TableCell from './TableCell';
 
-
 /**
  * Represents a single table row.
  * Maps visible columns into TableCell components and forwards
@@ -21,7 +20,6 @@ import TableCell from './TableCell';
  *   setFocusedCell: Function
  * }} props
  */
-
 
 function TableRow({
   rowId,

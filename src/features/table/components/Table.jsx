@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import SaveButton from './SaveButton';
 import ColumnSelector from './ColumnSelector';

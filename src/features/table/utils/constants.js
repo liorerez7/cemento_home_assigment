@@ -1,5 +1,3 @@
-
-
 import StringCellView from "../renderers/StringCellView";
 import NumberCellView from "../renderers/NumberCellView";
 import BooleanCellView from "../renderers/BooleanCellView";

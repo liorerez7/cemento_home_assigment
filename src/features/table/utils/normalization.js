@@ -1,16 +1,3 @@
-/*
-  HIGH LEVEL:
-
-  This file provides pure functions for:
-    - Normalizing rows
-    - Normalizing columns
-    - Denormalizing back to arrays (used when saving to storage)
-
-  These functions are used by:
-    - useTableData
-    - future unit tests
-*/
-
 export function normalizeColumns(columns) {
   const columnsById = {};
   const columnOrder = [];
@@ -50,23 +37,11 @@ export function normalizeRows(rows) {
   return { rowsById, rowIds };
 }
 
-/*
-  NEW — required for saving to localStorage:
-  Converts:
-      rowsById = { "row-1": {...}, "row-2": {...} }
-      rowIds   = ["row-1", "row-2"]
-  Into:
-      [ {...}, {...} ]  in the correct order
-*/
 export function denormalizeRows(rowsById, rowIds) {
   if (!rowsById || !rowIds) return [];
   return rowIds.map((id) => rowsById[id]).filter(Boolean);
 }
 
-/*
-  Optional — used when saving schema:
-  Converts normalized columns back to an array in order.
-*/
 export function denormalizeColumns(columnsById, columnOrder) {
   if (!columnsById || !columnOrder) return [];
   return columnOrder.map((id) => columnsById[id]).filter(Boolean);

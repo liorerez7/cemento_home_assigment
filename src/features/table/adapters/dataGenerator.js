@@ -8,6 +8,7 @@
  *   data: any[]
  * }} A full table schema + generated rows.
  */
+
 export function generateSchemaAndData(rowCount = DEFAULT_GENERATED_ROWS) {
   const columns = [
     {
