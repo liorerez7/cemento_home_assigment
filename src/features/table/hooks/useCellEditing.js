@@ -43,9 +43,9 @@ export default function useCellEditing({ onConfirm }) {
 
   const confirmEdit = useCallback(() => {
     if (!editingCell) return;
-    if (typeof onConfirm === "function") {
-      onConfirm(editingCell.rowId, editingCell.columnId, draftValue);
-    }
+    
+    //calling 'updateCell' from useTableData via Table component
+    onConfirm(editingCell.rowId, editingCell.columnId, draftValue);
     clearState();
   }, [editingCell, draftValue, onConfirm, clearState]);
 

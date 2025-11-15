@@ -38,10 +38,13 @@ function TableRow({
     <div className="table-row">
       {visibleColumns.map((column) => {
         const cellValue = row[column.id];
+
+        // only in the row that is on edit, editingCell will not be null.
         const isEditing =
           editingCell &&
-          editingCell.columnId === column.id;
+          editingCell.columnId === column.id; 
 
+          // if cell is in editing mode, present draftValue
         const effectiveDraftValue =
           isEditing && draftValue !== undefined
             ? draftValue

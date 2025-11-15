@@ -34,7 +34,6 @@ export const CELL_RENDERERS = {
   select: SelectCellView,
 };
 
-// NEW: Step 1 – localStorage keys
 export const LOCAL_STORAGE_KEYS = {
   SCHEMA: "generic_table_schema",
   DATA: "generic_table_data",
@@ -43,6 +42,5 @@ export const LOCAL_STORAGE_KEYS = {
 export const DEFAULT_GENERATED_ROWS = 200;
 
 
-// Optional defaults (not required but helpful)
 export const DEFAULT_ROW_HEIGHT = 40;
 export const DEFAULT_TABLE_HEIGHT = 400;

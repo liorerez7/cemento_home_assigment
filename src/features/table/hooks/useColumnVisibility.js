@@ -39,13 +39,10 @@ export default function useColumnVisibility(initialColumnOrder) {
     });
   };
 
-  const visibleIds = useMemo(
-    () => visibleColumnIds,
-    [visibleColumnIds]
-  );
+ 
 
   return {
-    visibleColumnIds: visibleIds,
+    visibleColumnIds,
     toggleColumnVisibility,
   };
 }

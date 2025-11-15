@@ -54,11 +54,8 @@ function Table({ initialColumns, initialData }) {
 
   const [focusedCell, setFocusedCell] = useState(null);
 
-  const allColumns = useMemo(
-    () =>
-      columnOrder
-        .map((id) => columnsById[id])
-        .filter(Boolean),
+  const allColumns = useMemo(() =>
+      columnOrder.map((id) => columnsById[id]),
     [columnOrder, columnsById]
   );
 
@@ -132,7 +129,6 @@ function Table({ initialColumns, initialData }) {
           cancelEdit={cancelEdit}
           focusedCell={focusedCell}
           setFocusedCell={setFocusedCell}
-          rowHeight={48}
           height={600}
         />
       </div>

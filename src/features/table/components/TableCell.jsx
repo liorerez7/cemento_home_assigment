@@ -81,26 +81,29 @@ function TableCell({
     }
   };
 
+
+  // View Mode
   if (!isEditing || !EditorComponent) {
-  return (
-    <div
-      className={`table-cell table-cell-view-mode ${
-        isFocused ? "table-cell-focused" : ""
-      }`}
-      role="gridcell"
-      tabIndex={0}
-      onFocus={handleFocusCell}
-      onClick={handleFocusCell}
-      onDoubleClick={handleEnterEdit}
-      onKeyDown={handleKeyDownView}
-    >
-        <div className="table-cell-text">
-          <ViewComponent value={value} column={column} />
+    return (
+      <div
+        className={`table-cell table-cell-view-mode ${
+          isFocused ? "table-cell-focused" : ""
+        }`}
+        role="gridcell"
+        tabIndex={0}
+        onFocus={handleFocusCell}
+        onClick={handleFocusCell}
+        onDoubleClick={handleEnterEdit}
+        onKeyDown={handleKeyDownView}
+      >
+          <div className="table-cell-text">
+            <ViewComponent value={value} column={column} />
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 
+  // Editing Mode
   return (
     <div
       className="table-cell table-cell-edit-mode"

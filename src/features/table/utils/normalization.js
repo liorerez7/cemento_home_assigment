@@ -44,5 +44,5 @@ export function denormalizeRows(rowsById, rowIds) {
 
 export function denormalizeColumns(columnsById, columnOrder) {
   if (!columnsById || !columnOrder) return [];
-  return columnOrder.map((id) => columnsById[id]).filter(Boolean);
+  return columnOrder.map((id) => columnsById[id]);
 }

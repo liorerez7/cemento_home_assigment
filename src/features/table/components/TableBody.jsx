@@ -36,8 +36,7 @@ function TableBody({
   cancelEdit,
   focusedCell,
   setFocusedCell,
-  rowHeight = 44,
-  height = 420,
+  height,
 }) {
   return (
     <div className="table-body" style={{ height }}>
@@ -57,19 +56,19 @@ function TableBody({
           const rowEditingCell = isEditingRow ? editingCell : null;
           const rowDraft = isEditingRow ? draftValue : undefined;
 
-          return (
+         return (
             <TableRow
-              rowId={rowId}
-              row={row}
-              visibleColumns={visibleColumns}
-              editingCell={rowEditingCell}
-              draftValue={rowDraft}
-              startEdit={startEdit}
-              updateDraft={updateDraft}
-              confirmEdit={confirmEdit}
-              cancelEdit={cancelEdit}
-              focusedCell={focusedCell}
-              setFocusedCell={setFocusedCell}
+              rowId={rowId}  // e.g. "row_28"
+              row={row}  // e.g. rowsById["row_28"] = { id:"row_28", name:"Lior"..}
+              visibleColumns={visibleColumns}  // e.g. [{id:"name"}, {id:"email"}, {id:"role"}]
+              editingCell={rowEditingCell}  // e.g. { rowId:"row_28", columnId:"email" } or null if this row is not being edited
+              draftValue={rowDraft}  // e.g. "lior@newmail.com" while editing, otherwise undefined
+              startEdit={startEdit}  // function that starts editing a cell
+              updateDraft={updateDraft}  // function that updates the temporary typed value
+              confirmEdit={confirmEdit}  // function that saves the new value to the real data
+              cancelEdit={cancelEdit}  // function that cancels editing and restores original data
+              focusedCell={focusedCell}  // e.g. { rowId:"row_28", columnId:"role" } or null if nothing is focused
+              setFocusedCell={setFocusedCell}  // function that updates which cell is focused
             />
           );
         }}
