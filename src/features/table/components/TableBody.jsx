@@ -23,7 +23,6 @@ import TableHeader from "./TableHeader";
  * }} props
  */
 
-
 function TableBody({
   rowIds,
   rowsById,
@@ -56,7 +55,12 @@ function TableBody({
           const rowEditingCell = isEditingRow ? editingCell : null;
           const rowDraft = isEditingRow ? draftValue : undefined;
 
-         return (
+          const isFocusedRow =
+            focusedCell && focusedCell.rowId === rowId;
+
+          const focusedColumnId = isFocusedRow ? focusedCell.columnId : null;
+
+          return (
             <TableRow
               rowId={rowId}  // e.g. "row_28"
               row={row}  // e.g. rowsById["row_28"] = { id:"row_28", name:"Lior"..}
@@ -67,7 +71,8 @@ function TableBody({
               updateDraft={updateDraft}  // function that updates the temporary typed value
               confirmEdit={confirmEdit}  // function that saves the new value to the real data
               cancelEdit={cancelEdit}  // function that cancels editing and restores original data
-              focusedCell={focusedCell}  // e.g. { rowId:"row_28", columnId:"role" } or null if nothing is focused
+              isFocusedRow={Boolean(isFocusedRow)}
+              focusedColumnId={focusedColumnId}
               setFocusedCell={setFocusedCell}  // function that updates which cell is focused
             />
           );
