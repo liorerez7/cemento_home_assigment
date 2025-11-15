@@ -42,7 +42,7 @@ export default function useColumnVisibility(initialColumnOrder) {
  
 
   return {
-    visibleColumnIds,
+    visibleColumnIds: visibleIds,
     toggleColumnVisibility,
   };
 }

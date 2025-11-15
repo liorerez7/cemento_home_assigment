@@ -20,6 +20,7 @@ export function normalizeColumns(columns) {
   return { columnsById, columnOrder };
 }
 
+
 export function normalizeRows(rows) {
   const rowsById = {};
   const rowIds = [];
