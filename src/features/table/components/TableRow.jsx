@@ -16,7 +16,8 @@ import TableCell from './TableCell';
  *   updateDraft: Function,
  *   confirmEdit: Function,
  *   cancelEdit: Function,
- *   focusedCell: any,
+ *   isFocusedRow: boolean,
+ *   focusedColumnId: string | null,
  *   setFocusedCell: Function
  * }} props
  */
@@ -31,7 +32,8 @@ function TableRow({
   updateDraft,
   confirmEdit,
   cancelEdit,
-  focusedCell,
+  isFocusedRow,
+  focusedColumnId,
   setFocusedCell
 }) {
   return (
@@ -44,16 +46,15 @@ function TableRow({
           editingCell &&
           editingCell.columnId === column.id; 
 
-          // if cell is in editing mode, present draftValue
+        // if cell is in editing mode, present draftValue
         const effectiveDraftValue =
           isEditing && draftValue !== undefined
             ? draftValue
             : cellValue;
 
         const isFocused =
-          focusedCell &&
-          focusedCell.rowId === rowId &&
-          focusedCell.columnId === column.id;
+          isFocusedRow &&
+          focusedColumnId === column.id;
 
         return (
           <TableCell
