@@ -71,8 +71,8 @@ function TableBody({
               updateDraft={updateDraft}  // function that updates the temporary typed value
               confirmEdit={confirmEdit}  // function that saves the new value to the real data
               cancelEdit={cancelEdit}  // function that cancels editing and restores original data
-              isFocusedRow={Boolean(isFocusedRow)}
-              focusedColumnId={focusedColumnId}
+              isFocusedRow={Boolean(isFocusedRow)} // true only if the focused cell belongs to this row
+              focusedColumnId={focusedColumnId} // e.g. "email" if that column currently has focus
               setFocusedCell={setFocusedCell}  // function that updates which cell is focused
             />
           );
